@@ -22,6 +22,5 @@ app.get("/api/tasks", (req, res) => {
         { id: 1, title: "Nerk you nas!! 🥲" },
         { id: 2, title: "Sl you nas!! 🫀" },
         { id: 3, title: "Okay" },
-        { id: 4, title: "Testing" }
     ]);
 });
