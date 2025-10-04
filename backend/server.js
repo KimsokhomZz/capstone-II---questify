@@ -20,6 +20,7 @@ app.listen(port, () => {
 app.get("/api/tasks", (req, res) => {
     res.json([
         { id: 1, title: "Nerk you nas!! 🥲" },
-        { id: 2, title: "Sl you nas!! 🫀" }
+        { id: 2, title: "Sl you nas!! 🫀" },
+        { id: 3, title: "Okay" }
     ]);
 });
