@@ -10,8 +10,7 @@ import {
 import Login from "./Pages/Authentication/Login.jsx";
 // @ts-ignore
 import SignUp from "./Pages/Authentication/SignUp.jsx";
-// import reactLogo from "./assets/react.svg";
-// import viteLogo from "/vite.svg";
+
 
 interface Task {
   id: number;
