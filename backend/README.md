@@ -98,3 +98,41 @@ Run in dev mode:
 npm run dev
 ```
 
+## 8. 🗂️ Database Setup Guide (Node.js + Express + Sequelize + MySQL)
+
+1. **Pull Code from Main Branch**
+
+Run the following command to get the latest version of the project:
+
+```bash
+git pull
+# or
+git pull origin main
+```
+
+2. **Install Dependencies**
+
+Make sure the required packages are installed:
+
+```bash
+npm install
+```
+
+3. **Create a Database in phpMyAdmin (or MySQL)**
+
+- Open phpMyAdmin (usually at [http://localhost/phpmyadmin](http://localhost/phpmyadmin))
+- Click on the **Databases** tab
+- Create a new database (recommended name: `tvertask_db`)
+
+4. **Create a `.env` File**
+
+In the root directory of the project, create a file named `.env` and add your database credentials:
+
+```
+DB_NAME=your_database_name
+DB_USER=your_mysql_username
+DB_PASSWORD=your_mysql_password
+DB_HOST=localhost
+DB_DIALECT=mysql
+PORT=3000
+```
