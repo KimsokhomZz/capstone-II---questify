@@ -1,6 +1,6 @@
 // src/controllers/authController.js
 const jwt = require("jsonwebtoken");
-const User = require("../database/models/User");
+const User = require("../models/userModel");
 
 // Generate JWT Token
 const generateToken = (userId) => {
@@ -14,7 +14,7 @@ const generateToken = (userId) => {
 // @access  Public
 exports.register = async (req, res) => {
   try {
-    const { username, email, password, role, avatar_url } = req.body;
+    const { username, email, password, avatar_url } = req.body;
 
     // Validation
     if (!username || !email || !password) {
@@ -49,14 +49,6 @@ exports.register = async (req, res) => {
       });
     }
 
-    // Validate role if provided
-    if (role && !["user", "admin"].includes(role)) {
-      return res.status(400).json({
-        success: false,
-        message: "Role must be either 'user' or 'admin'",
-      });
-    }
-
     // Check if user already exists
     const existingUser = await User.findOne({
       where: {
@@ -88,7 +80,6 @@ exports.register = async (req, res) => {
       username,
       email: email.toLowerCase(),
       password,
-      role: role || "user",
       avatar_url: avatar_url || null,
     });
 
