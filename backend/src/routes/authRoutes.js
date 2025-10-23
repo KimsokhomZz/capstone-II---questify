@@ -1,11 +1,7 @@
 // src/routes/authRoutes.js
 const express = require("express");
 const router = express.Router();
-<<<<<<< HEAD
-const { register, login, getMe } = require("../controller/authController");
-=======
 const { register, login, getMe } = require("../controllers/authController");
->>>>>>> main
 const {
   protect,
   authorize,
