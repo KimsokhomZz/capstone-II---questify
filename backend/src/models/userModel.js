@@ -8,7 +8,7 @@ const User = sequelize.define('User', {
         autoIncrement: true,
         primaryKey: true,
     },
-    name: {
+    username: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -24,6 +24,11 @@ const User = sequelize.define('User', {
     avatarUrl: {
         type: DataTypes.STRING,
         allowNull: true,
+    },
+    role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "user",
     },
 }, {
     timestamps: true, // adds createdAt and updatedAt

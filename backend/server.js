@@ -15,7 +15,7 @@ sequelize.authenticate()
   .catch(err => console.error('❌ Connection failed:', err));
 
 // Sync models with database
-sequelize.sync({ force: true })
+sequelize.sync({ force: false })
   .then(() => console.log('✅ Models synced'))
   .catch(err => console.error('❌ Sync error:', err));
 
