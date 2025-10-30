@@ -13,7 +13,7 @@ import Login from "./Pages/Authentication/Login.jsx";
 import SignUp from "./Pages/Authentication/SignUp.jsx";
 import TaskList from "./Pages/TaskList/TaskList.js";
 import MainLayout from "./components/MainLayout";
-import Pomodoro from "./Pages/Pomodoro/Pomodoro";
+import Pomodoro from "./Pages/Focus/Focustask.js";
 
 interface Task {
   id: number;
