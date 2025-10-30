@@ -1,10 +1,21 @@
 const express = require("express");
+const cors = require("cors");
 const session = require("express-session");
 const passport = require("./config/passport");
 const userRoutes = require("./routes/userRoutes");
 const googleAuthRoutes = require("./controllers/googleController");
 
 const app = express();
+
+// CORS configuration
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:5173", // Vite default port
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+  })
+);
 
 // Middleware
 app.use(express.json());

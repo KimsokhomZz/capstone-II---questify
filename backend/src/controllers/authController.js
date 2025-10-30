@@ -65,7 +65,7 @@ exports.register = async (req, res) => {
 
     // Check if username is taken
     const existingUsername = await User.findOne({
-      where: { username },
+      where: { name: username },
     });
 
     if (existingUsername) {
@@ -77,10 +77,10 @@ exports.register = async (req, res) => {
 
     // Create user (password will be hashed automatically by the User model hooks)
     const user = await User.create({
-      username,
+      name: username,
       email: email.toLowerCase(),
       password,
-      avatar_url: avatar_url || null,
+      avatarUrl: avatar_url || null,
     });
 
     // Generate JWT token

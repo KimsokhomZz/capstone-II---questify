@@ -10,7 +10,14 @@ import {
 import Login from "./Pages/Authentication/Login.jsx";
 // @ts-ignore
 import SignUp from "./Pages/Authentication/SignUp.jsx";
-
+// @ts-ignore
+import AuthCallback from "./Pages/Authentication/AuthCallback.jsx";
+// @ts-ignore
+import Dashboard from "./Pages/Dashboard/Dashboard.jsx";
+// @ts-ignore
+import { AuthProvider } from "./context/AuthContext.jsx";
+// @ts-ignore
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
 
 interface Task {
   id: number;
@@ -50,13 +57,24 @@ function HomePage() {
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/auth/callback" element={<AuthCallback />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
