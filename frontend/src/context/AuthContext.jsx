@@ -142,6 +142,14 @@ export const AuthProvider = ({ children }) => {
 
       const response = await authService.register(userData);
 
+      // Check if email verification is required
+      if (response.data?.requiresVerification) {
+        // Don't set auth state yet, just return the response
+        dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: false });
+        return response;
+      }
+
+      // For immediate login (social auth or if verification is bypassed)
       dispatch({
         type: AUTH_ACTIONS.REGISTER_SUCCESS,
         payload: {

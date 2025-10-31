@@ -29,7 +29,12 @@ class AuthService {
         throw new Error(data.message || "Registration failed");
       }
 
-      // Store token in localStorage
+      // For email verification flow, don't store token yet
+      if (data.data?.requiresVerification) {
+        return data;
+      }
+
+      // Store token in localStorage (for social auth, auto-verification, or if verification is bypassed)
       if (data.data?.token) {
         localStorage.setItem("token", data.data.token);
         localStorage.setItem("user", JSON.stringify(data.data.user));
@@ -126,6 +131,61 @@ class AuthService {
     const token = this.getToken();
     const user = this.getUser();
     return !!(token && user);
+  }
+
+  async verifyEmail(token) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/users/verify-email`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Email verification failed");
+      }
+
+      // Store token and user data after successful verification
+      if (data.data?.token) {
+        localStorage.setItem("token", data.data.token);
+        localStorage.setItem("user", JSON.stringify(data.data.user));
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Email verification error:", error);
+      throw error;
+    }
+  }
+
+  async resendVerification(email) {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/api/users/resend-verification`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to resend verification email");
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Resend verification error:", error);
+      throw error;
+    }
   }
 }
 

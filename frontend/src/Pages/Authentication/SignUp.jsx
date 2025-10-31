@@ -14,6 +14,9 @@ export default function SignUp() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [isSuccess, setIsSuccess] = useState(false);
+  const [showVerificationMessage, setShowVerificationMessage] = useState(false);
+  const [registrationEmail, setRegistrationEmail] = useState("");
+  const [isResendingVerification, setIsResendingVerification] = useState(false);
 
   const { register, isLoading, error, clearError } = useAuth();
   const navigate = useNavigate();
@@ -74,21 +77,42 @@ export default function SignUp() {
     }
 
     try {
-      await register({
+      const result = await register({
         username: username.trim(),
         email: email.trim().toLowerCase(),
         password,
       });
 
-      // Show success state
-      setIsSuccess(true);
+      if (result?.data?.requiresVerification) {
+        // Show verification message instead of redirecting
+        setShowVerificationMessage(true);
+        setRegistrationEmail(email.trim().toLowerCase());
+      } else {
+        // Show success state (for social auth, auto-verification, or if verification is bypassed)
+        setIsSuccess(true);
 
-      // Wait a moment to show success animation before redirecting
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 1500);
+        // Wait a moment to show success animation before redirecting
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1500);
+      }
     } catch (error) {
       // Error is handled by the auth context
+    }
+  };
+
+  const handleResendVerification = async () => {
+    if (!registrationEmail) return;
+
+    setIsResendingVerification(true);
+    try {
+      await authService.resendVerification(registrationEmail);
+      // Show a brief success message
+      alert("Verification email sent! Please check your inbox.");
+    } catch (error) {
+      alert(error.message || "Failed to resend verification email");
+    } finally {
+      setIsResendingVerification(false);
     }
   };
 
@@ -141,6 +165,55 @@ export default function SignUp() {
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Email Verification Message */}
+            {showVerificationMessage && (
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0">
+                    <svg
+                      className="w-5 h-5 text-blue-500 mt-0.5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                      <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-blue-800 font-medium text-sm mb-1">
+                      Verify Your Email Address
+                    </h3>
+                    <p className="text-blue-700 text-sm mb-3">
+                      We've sent a verification link to{" "}
+                      <strong>{registrationEmail}</strong>. Please check your
+                      inbox and click the link to activate your account.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <button
+                        type="button"
+                        onClick={handleResendVerification}
+                        disabled={isResendingVerification}
+                        className="text-blue-600 hover:text-blue-800 underline text-sm font-medium disabled:opacity-50"
+                      >
+                        {isResendingVerification
+                          ? "Sending..."
+                          : "Resend verification email"}
+                      </button>
+                      <span className="hidden sm:inline text-blue-400 text-sm">
+                        •
+                      </span>
+                      <Link
+                        to="/login"
+                        className="text-blue-600 hover:text-blue-800 underline text-sm font-medium"
+                      >
+                        Already verified? Login here
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Success Message */}
             {isSuccess && (
               <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
