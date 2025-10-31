@@ -7,6 +7,12 @@ class AuthService {
     window.location.href = `${API_BASE_URL}/auth/google`;
   }
 
+  // Facebook OAuth login
+  loginWithFacebook() {
+    // Redirect to backend Facebook OAuth endpoint
+    window.location.href = `${API_BASE_URL}/auth/facebook`;
+  }
+
   async register(userData) {
     try {
       const response = await fetch(`${API_BASE_URL}/api/users/register`, {

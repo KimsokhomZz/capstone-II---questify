@@ -4,6 +4,7 @@ const session = require("express-session");
 const passport = require("./config/passport");
 const userRoutes = require("./routes/userRoutes");
 const googleAuthRoutes = require("./controllers/googleController");
+const facebookAuthRoutes = require("./controllers/facebookController");
 
 const app = express();
 
@@ -42,5 +43,6 @@ app.use(passport.session());
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/auth", googleAuthRoutes);
+app.use("/auth", facebookAuthRoutes);
 
 module.exports = app;
