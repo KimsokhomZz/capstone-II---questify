@@ -15,6 +15,8 @@ import AuthCallback from "./Pages/Authentication/AuthCallback.jsx";
 // @ts-ignore
 import EmailVerification from "./Pages/Authentication/EmailVerification.jsx";
 // @ts-ignore
+import EmailSent from "./Pages/Authentication/EmailSent.jsx";
+// @ts-ignore
 import Dashboard from "./Pages/Dashboard/Dashboard.jsx";
 // @ts-ignore
 import { AuthProvider } from "./context/AuthContext.jsx";
@@ -65,6 +67,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/email-sent" element={<EmailSent />} />
           <Route path="/verify-email" element={<EmailVerification />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
           <Route

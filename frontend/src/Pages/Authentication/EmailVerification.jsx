@@ -90,7 +90,7 @@ export default function EmailVerification() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-400 via-purple-500 to-purple-700 flex items-center justify-center px-4">
+    <div className="h-screen w-screen bg-gradient-to-br from-purple-400 via-purple-500 to-purple-700 flex items-center justify-center px-4 overflow-hidden">
       <div className="max-w-md w-full">
         {/* Questify Logo */}
         <div className="text-center mb-8">
